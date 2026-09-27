@@ -1,0 +1,193 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+type Crumb = { name: string; path: string };
+
+type Props = {
+  title: string;
+  description: string;
+  image?: string;
+  imageAlt?: string;
+  noindex?: boolean;
+  breadcrumbs?: Crumb[];
+  structuredData?: Record<string, unknown>[];
+};
+
+const siteName = "Developers Circle Nepal";
+const defaultImage = "/images/og-image.png";
+const {
+  title,
+  description,
+  image = defaultImage,
+  imageAlt = description,
+  noindex = false,
+  breadcrumbs = [],
+  structuredData: extraStructuredData = [],
+} = Astro.props;
+const pageTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
+const siteUrl = new URL("/", Astro.site).toString();
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const imageUrl = new URL(image, siteUrl).toString();
+const imageType = imageUrl.endsWith(".jpg") || imageUrl.endsWith(".jpeg")
+  ? "image/jpeg"
+  : imageUrl.endsWith(".webp")
+    ? "image/webp"
+    : "image/png";
+const robotsContent = noindex
+  ? "noindex, follow"
+  : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
+
+const socialProfiles = [
+  "https://github.com/dev-circle-np",
+  "https://discord.gg/fp5CmBG",
+];
+
+const organizationId = `${siteUrl}#organization`;
+const websiteId = `${siteUrl}#website`;
+const webPageId = `${canonicalUrl}#webpage`;
+const breadcrumbId = `${canonicalUrl}#breadcrumb`;
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": organizationId,
+    name: siteName,
+    alternateName: ["DCN", "Developers Circle Nepal (DCN)"],
+    url: siteUrl,
+    logo: new URL("/images/logo.png", siteUrl).toString(),
+    description:
+      "Developers Circle Nepal (DCN) is a community of Nepali developers and students who learn, code, build, share, and help through technology.",
+    areaServed: [
+      { "@type": "Country", name: "Nepal" },
+      { "@type": "Place", name: "Worldwide" },
+    ],
+    sameAs: socialProfiles,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": websiteId,
+    name: siteName,
+    url: siteUrl,
+    inLanguage: "en",
+    publisher: { "@id": organizationId },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": webPageId,
+    url: canonicalUrl,
+    name: pageTitle,
+    description,
+    inLanguage: "en",
+    isPartOf: { "@id": websiteId },
+    about: { "@id": organizationId },
+    primaryImageOfPage: { "@type": "ImageObject", url: imageUrl },
+    ...(breadcrumbs.length > 0 && { breadcrumb: { "@id": breadcrumbId } }),
+  },
+  ...(breadcrumbs.length > 0
+    ? [
+        {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "@id": breadcrumbId,
+          itemListElement: breadcrumbs.map((crumb, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: crumb.name,
+            item: new URL(crumb.path, siteUrl).toString(),
+          })),
+        },
+      ]
+    : []),
+  ...extraStructuredData,
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={robotsContent} />
+    <meta name="application-name" content={siteName} />
+    <meta name="theme-color" content="#11100d" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap-index.xml" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:type" content={imageType} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <title>{pageTitle}</title>
+    {
+      !noindex && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(structuredData)}
+          is:inline
+        />
+      )
+    }
+  </head>
+  <body>
+    <Header />
+    <slot />
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: #11100d;
+    color: #fff7e8;
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --container-max: 80rem;
+    --page-gutter: clamp(1.25rem, 7vw, 7rem);
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .container {
+    width: min(calc(100% - (var(--page-gutter) * 2)), var(--container-max));
+    margin-inline: auto;
+  }
+
+  @media (max-width: 640px) {
+    html,
+    body {
+      --page-gutter: 1.25rem;
+    }
+  }
+</style>

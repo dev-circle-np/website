@@ -1,0 +1,98 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const discordUrl = "https://discord.gg/fp5CmBG";
+---
+
+<BaseLayout
+  title="Page not found"
+  description="That page does not exist. Head back to Developers Circle Nepal or join the Discord community."
+  noindex
+>
+  <main class="not-found container" aria-label="Page not found">
+    <p class="section-kicker">404</p>
+    <h1>This page is not here.</h1>
+    <p class="lede">
+      The link may be outdated or the page may have moved. Try the homepage, or
+      ask in the Discord community.
+    </p>
+    <div class="actions">
+      <a class="action" href={discordUrl} target="_blank" rel="noreferrer">Join the Discord community</a>
+      <a class="action muted" href="/">Back to home</a>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  h1,
+  p {
+    margin: 0;
+  }
+
+  .not-found {
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 0.9rem;
+    min-height: 100svh;
+    padding-block: clamp(6rem, 12vh, 9rem) clamp(4rem, 10vh, 7rem);
+    text-align: center;
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .section-kicker {
+    color: #f2c66b;
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-size: clamp(1.9rem, 5vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.02;
+  }
+
+  .lede {
+    max-width: 32rem;
+    color: rgb(255 247 232 / 0.82);
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0 1.35rem;
+    border: 1px solid rgb(255 247 232 / 0.26);
+    border-radius: 999px;
+    background: rgb(255 247 232 / 0.11);
+    color: #fff7e8;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .action:hover {
+    color: #f2c66b;
+  }
+
+  .muted {
+    border-color: rgb(255 247 232 / 0.16);
+    background: transparent;
+    color: rgb(255 247 232 / 0.72);
+  }
+</style>

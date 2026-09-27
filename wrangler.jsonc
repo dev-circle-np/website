@@ -1,0 +1,11 @@
+{
+	"name": "dcn",
+	"main": "src/worker.ts",
+	"compatibility_date": "2026-06-05",
+	"assets": {
+		"binding": "ASSETS",
+		"directory": "./dist",
+		"html_handling": "auto-trailing-slash",
+		"not_found_handling": "404-page"
+	}
+}

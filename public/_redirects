@@ -1,0 +1,7 @@
+# Retired: DCN Fellowship pages. Removed intentionally, so consolidate the old
+# URLs to the homepage rather than letting them return 404.
+/fellowship / 301
+/fellowship/ / 301
+/fellowship/join / 301
+/fellowship/join/ / 301
+/fellowship/* / 301

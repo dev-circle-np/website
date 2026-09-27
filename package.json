@@ -1,0 +1,21 @@
+{
+  "name": "dcn",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "cf:dev": "npm run build && npx wrangler@latest dev",
+    "cf:preview": "npm run build && npx wrangler@latest dev",
+    "deploy": "npm run build && npx wrangler@latest deploy",
+    "deploy:dry-run": "npm run build && npx wrangler@latest deploy --dry-run"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^6.4.4",
+    "typescript": "^5.6.3"
+  },
+  "packageManager": "pnpm@10.22.0+sha512.bf049efe995b28f527fd2b41ae0474ce29186f7edcb3bf545087bd61fbbebb2bf75362d1307fda09c2d288e1e499787ac12d4fcb617a974718a6051f2eee741c"
+}

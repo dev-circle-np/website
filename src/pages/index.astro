@@ -1,0 +1,787 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { members, type Member } from "../data/members";
+
+const discordUrl = "https://discord.gg/fp5CmBG";
+const eventsUrl = "https://events.asy.sh";
+
+const showcaseMembers = members.filter((member) => member.links.github).slice(0, 12);
+
+const avatarUrl = (member: Member) =>
+  member.links.github
+    ? `https://avatars.githubusercontent.com/${member.links.github}?size=160`
+    : fallbackAvatar(member.fullName);
+
+function fallbackAvatar(fullName: string) {
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&size=160&background=6366f1&color=fff&bold=true&length=2`;
+}
+
+const pillars = [
+  {
+    title: "Learn",
+    text: "Study together, ask better questions, and keep improving in public.",
+  },
+  {
+    title: "Code",
+    text: "Practice by building real software, reviewing work, and sharing progress.",
+  },
+  {
+    title: "Build",
+    text: "Turn ideas into practical projects that can help communities around us.",
+  },
+  {
+    title: "Share",
+    text: "Document lessons, open-source useful work, and make knowledge easier to find.",
+  },
+  {
+    title: "Help",
+    text: "Support students, early-career engineers, and organizations with real needs.",
+  },
+];
+---
+
+<BaseLayout
+  title="Developers Circle Nepal | Developer Community in Nepal"
+  description="DCN is a developer community in Nepal for programmers, students, and open-source builders. Learn, code, build, share, and help together. Join our Discord."
+>
+  <main class="home" aria-label="Developers Circle Nepal">
+    <section class="hero">
+      <svg
+        class="hero-curves"
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M -80 140 C 260 92 540 96 800 210 C 1010 300 1200 316 1520 292"
+          opacity="0.22"></path>
+        <path
+          d="M 620 -70 C 690 40 770 116 910 162 C 1090 222 1300 234 1520 226"
+          opacity="0.17"></path>
+        <path
+          d="M 1150 -60 C 1176 20 1210 62 1272 90 C 1320 112 1370 122 1440 124"
+          opacity="0.14"></path>
+        <path
+          d="M -80 400 C 160 320 420 274 660 330 C 900 386 1000 486 1200 512 C 1350 532 1430 520 1520 496"
+          opacity="0.2"></path>
+        <path
+          d="M -80 555 C 140 480 380 440 620 494 C 880 552 980 672 1220 676 C 1350 678 1430 652 1520 628"
+          opacity="0.13"></path>
+        <path
+          d="M -80 690 C 180 616 400 564 640 614 C 900 668 1000 788 1230 792 C 1350 794 1430 766 1520 740"
+          opacity="0.16"></path>
+        <path
+          d="M -80 845 C 200 796 430 772 660 816 C 890 858 1030 886 1240 880 C 1350 876 1440 862 1520 848"
+          opacity="0.2"></path>
+      </svg>
+      <div class="hero-copy container">
+        <p class="eyebrow">Learn, Code, Build, Share and Help</p>
+        <h1>Grow yourself along with helping others.</h1>
+        <p class="lede">
+          A community of developers and designers who believe in learning together, building
+          together, and growing together.
+        </p>
+        <div class="hero-actions" aria-label="Primary actions">
+          <a
+            class="secondary-link discord-link"
+            href={discordUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img src="/images/discord.svg" alt="Discord logo" width="18" height="18" />
+            Join Discord
+          </a>
+        </div>
+        <dl class="hero-stats" aria-label="Developers Circle Nepal community stats">
+          <div>
+            <dt>250+</dt>
+            <dd>Members</dd>
+          </div>
+          <div>
+            <dt>Worldwide</dt>
+            <dd>Community</dd>
+          </div>
+          <div>
+            <dt>Open</dt>
+            <dd>Source</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="pillars-section" aria-labelledby="pillars-title">
+      <div class="container">
+        <div class="section-heading" data-reveal>
+          <p class="section-kicker">What we do</p>
+          <h2 id="pillars-title">Learn together, then build for others.</h2>
+        </div>
+        <div class="pillars-grid">
+          {pillars.map((pillar) => (
+            <article class="pillar" data-reveal>
+              <h3>{pillar.title}</h3>
+              <p>{pillar.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about-section" aria-labelledby="about-title">
+      <div class="about-grid container">
+        <div class="about-copy" data-reveal>
+          <p class="section-kicker">About DCN</p>
+          <h2 id="about-title">A decade of learning in public.</h2>
+          <p>
+            DCN started as a student study group around 10 years ago. Learning
+            in public and helping each other made a lasting difference for its
+            members, many of whom now work around the world. Today, DCN is a way
+            to give back in that same spirit.
+          </p>
+        </div>
+        <div class="member-note" data-reveal aria-label="Community size">
+          <strong>250+</strong>
+          <span>members connected through the community</span>
+          <a class="member-link" href="/members">Meet the members</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="members" class="members-section" aria-labelledby="members-title">
+      <div class="container members-inner" data-reveal>
+        <p class="section-kicker">Our community</p>
+        <h2 id="members-title">Our Members</h2>
+        <p class="members-lede">Developers and designers from around the world.</p>
+        <ul class="members-row" aria-label="A few of our members">
+          {showcaseMembers.map((member) => (
+            <li>
+              <a
+                href={`https://github.com/${member.links.github}`}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={member.fullName}
+              >
+                <img
+                  src={avatarUrl(member)}
+                  alt={member.fullName}
+                  width="80"
+                  height="80"
+                  loading="lazy"
+                  decoding="async"
+                  onerror={`this.onerror=null;this.src='${fallbackAvatar(member.fullName)}'`}
+                />
+              </a>
+            </li>
+          ))}
+        </ul>
+        <a class="members-cta" href="/members">View all members</a>
+      </div>
+    </section>
+
+    <section id="events" class="events-section" aria-labelledby="events-title">
+      <div class="container">
+        <div class="events-card" data-reveal>
+          <p class="section-kicker">Nepal tech calendar</p>
+          <h2 id="events-title">Find your next meetup or hackathon.</h2>
+          <p class="events-copy">
+            We keep a running calendar of tech events, aggregating meetups,
+            hackathons, and workshops from communities around Nepal.
+          </p>
+          <a
+            class="events-link"
+            href={eventsUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Browse the Nepal tech events calendar
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const revealItems = document.querySelectorAll("[data-reveal]");
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      if (revealItems.length && !reduceMotion.matches) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.setAttribute("data-visible", "true");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.22 },
+        );
+
+        revealItems.forEach((item) => observer.observe(item));
+      } else {
+        revealItems.forEach((item) => item.setAttribute("data-visible", "true"));
+      }
+    </script>
+  </main>
+</BaseLayout>
+
+<style>
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+
+  .home {
+    background: #11100d;
+    color: #fff7e8;
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  /*
+   * The hero sits one step up from the base page tone. Without its own fill it
+   * inherited `.home`'s #11100d, which is also the pillars section directly
+   * below, so the two ran together with no seam. #17140f is the same lifted
+   * tone the about section uses further down, and the hairline keeps the
+   * boundary intentional rather than a colour-matching accident.
+   */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    align-items: center;
+    background: #17140f;
+    border-bottom: 1px solid rgb(255 247 232 / 0.1);
+  }
+
+  /*
+   * Decorative hairline sweeps behind the copy. Authored in a 1440x900 box and
+   * stretched to fill whatever the hero happens to be; a non-uniform scale would
+   * otherwise thicken the stroke with it, so each path opts out via
+   * `non-scaling-stroke` and keeps a constant hairline weight at every size.
+   * Flat low-opacity cream, so the lines read as texture rather than content.
+   */
+  .hero-curves {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: #fff7e8;
+    stroke-width: 1.25;
+    stroke-linecap: round;
+    pointer-events: none;
+  }
+
+  .hero-curves path {
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hero-copy {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    padding-top: clamp(5rem, 8vh, 7rem);
+    padding-bottom: clamp(2rem, 6vh, 4rem);
+    text-align: center;
+    text-shadow: 0 2px 24px rgb(0 0 0 / 0.44);
+  }
+
+  .eyebrow,
+  .section-kicker {
+    color: #f2c66b;
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    max-width: 24ch;
+    margin-top: 0.8rem;
+    font-size: clamp(1.75rem, 4.3vw, 4rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  .lede {
+    max-width: 42rem;
+    margin-top: 1.1rem;
+    color: rgb(255 247 232 / 0.9);
+    font-size: clamp(1rem, 1.35vw, 1.2rem);
+    font-weight: 600;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    justify-content: center;
+    margin-top: clamp(1.25rem, 2.4vw, 1.9rem);
+  }
+
+  .secondary-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.35rem;
+    padding: 0 1.35rem;
+    border: 1px solid rgb(255 247 232 / 0.24);
+    border-radius: 999px;
+    color: #fff7e8;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      transform 180ms var(--ease-out-quint),
+      background-color 180ms var(--ease-out-quint),
+      color 180ms var(--ease-out-quint);
+  }
+
+  .secondary-link:hover {
+    color: #f2c66b;
+    transform: translateY(-1px);
+  }
+
+  .discord-link {
+    gap: 0.55rem;
+    border-color: rgb(255 247 232 / 0.28);
+    background: rgb(255 247 232 / 0.11);
+    box-shadow: inset 0 1px 0 rgb(255 247 232 / 0.18);
+    backdrop-filter: blur(14px) saturate(130%);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+  }
+
+  .discord-link img {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex: 0 0 auto;
+  }
+
+  .discord-link:hover {
+    background: rgb(255 247 232 / 0.16);
+  }
+
+  .hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    align-items: center;
+    justify-content: center;
+    margin: clamp(1.7rem, 3.4vw, 2.6rem) 0 0;
+  }
+
+  .hero-stats div {
+    display: grid;
+    gap: 0.3rem;
+    min-width: 8rem;
+    padding: 0 clamp(1rem, 2.4vw, 1.7rem);
+  }
+
+  .hero-stats div:first-child {
+    padding-left: 0;
+  }
+
+  .hero-stats dt,
+  .hero-stats dd {
+    margin: 0;
+  }
+
+  .hero-stats dt {
+    color: #fff7e8;
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .hero-stats dd {
+    color: rgb(255 247 232 / 0.56);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .pillars-section,
+  .about-section,
+  .members-section {
+    padding: clamp(4.5rem, 9vw, 7rem) 0;
+  }
+
+  .pillars-section {
+    background: #11100d;
+  }
+
+  .section-heading {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 46rem;
+  }
+
+  h2 {
+    max-width: 15ch;
+    font-size: clamp(2.15rem, 4.4vw, 4.4rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1px;
+    margin-top: clamp(2.2rem, 5vw, 4rem);
+    background: rgb(255 247 232 / 0.11);
+    border: 1px solid rgb(255 247 232 / 0.11);
+  }
+
+  .pillar {
+    min-height: 15rem;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    align-content: start;
+    gap: 1.1rem;
+    padding: clamp(1.25rem, 2.5vw, 2rem);
+    background: #15120e;
+  }
+
+  .pillar h3 {
+    color: #fff7e8;
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    line-height: 1.05;
+    align-self: start;
+  }
+
+  .pillar p {
+    max-width: 15rem;
+    color: rgb(255 247 232 / 0.7);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.45;
+    align-self: start;
+  }
+
+  .about-section {
+    background: #17140f;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.42fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: end;
+  }
+
+  .about-copy {
+    display: grid;
+    gap: 1rem;
+    max-width: 62rem;
+  }
+
+  .about-copy p {
+    max-width: 58rem;
+    color: rgb(255 247 232 / 0.8);
+    font-size: clamp(1.05rem, 1.55vw, 1.28rem);
+    font-weight: 600;
+    line-height: 1.58;
+  }
+
+  .member-note {
+    display: grid;
+    gap: 0.35rem;
+    padding-bottom: 0.15rem;
+  }
+
+  .member-note strong {
+    color: #f2c66b;
+    font-size: clamp(3rem, 7vw, 6.4rem);
+    line-height: 0.88;
+  }
+
+  .member-note span {
+    max-width: 14rem;
+    color: rgb(255 247 232 / 0.74);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .member-link {
+    margin-top: 0.6rem;
+    color: #f2c66b;
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .member-link:hover {
+    color: #ffd978;
+  }
+
+  .members-section {
+    background: #11100d;
+    border-top: 1px solid rgb(255 247 232 / 0.1);
+  }
+
+  .members-inner {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .members-section h2 {
+    max-width: none;
+  }
+
+  .members-lede {
+    max-width: 34rem;
+    margin-top: 0.9rem;
+    color: rgb(255 247 232 / 0.72);
+    font-size: clamp(1rem, 1.4vw, 1.18rem);
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .members-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(0.4rem, 1vw, 0.7rem);
+    justify-content: center;
+    margin: clamp(1.8rem, 4vw, 2.8rem) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .members-row a {
+    display: block;
+    border-radius: 999px;
+  }
+
+  .members-row img {
+    display: block;
+    width: clamp(2.9rem, 5vw, 4rem);
+    height: clamp(2.9rem, 5vw, 4rem);
+    border: 1px solid rgb(255 247 232 / 0.18);
+    border-radius: 999px;
+    object-fit: cover;
+    background: #1d1a14;
+    transition:
+      transform 180ms var(--ease-out-quint),
+      border-color 180ms var(--ease-out-quint);
+  }
+
+  .members-row a:hover img {
+    border-color: rgb(242 198 107 / 0.6);
+    transform: translateY(-3px);
+  }
+
+  .members-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.35rem;
+    margin-top: clamp(1.8rem, 4vw, 2.6rem);
+    padding: 0 1.5rem;
+    border-radius: 999px;
+    background: #f2c66b;
+    color: #17140f;
+    font-size: 0.98rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      transform 180ms var(--ease-out-quint),
+      background-color 180ms var(--ease-out-quint);
+  }
+
+  .members-cta:hover {
+    background: #ffd978;
+    transform: translateY(-1px);
+  }
+
+  .events-section {
+    padding: clamp(4.5rem, 9vw, 7rem) 0;
+    background: #11100d;
+    border-top: 1px solid rgb(255 247 232 / 0.1);
+  }
+
+  .events-card {
+    display: grid;
+    justify-items: start;
+    gap: 1rem;
+    max-width: 46rem;
+  }
+
+  .events-card h2 {
+    max-width: 22ch;
+    font-size: clamp(1.85rem, 3.6vw, 3.2rem);
+  }
+
+  .events-copy {
+    max-width: 44rem;
+    color: rgb(255 247 232 / 0.8);
+    font-size: clamp(1.02rem, 1.45vw, 1.2rem);
+    font-weight: 600;
+    line-height: 1.55;
+  }
+
+  .events-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.35rem;
+    margin-top: 0.35rem;
+    padding: 0 1.5rem;
+    border-radius: 999px;
+    background: #f2c66b;
+    color: #17140f;
+    font-size: 0.98rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      transform 180ms var(--ease-out-quint),
+      background-color 180ms var(--ease-out-quint);
+  }
+
+  .events-link:hover {
+    background: #ffd978;
+    transform: translateY(-1px);
+  }
+
+  [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 1.1rem, 0);
+    transition:
+      opacity 520ms var(--ease-out-quint),
+      transform 520ms var(--ease-out-quint);
+  }
+
+  [data-reveal][data-visible="true"] {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  @media (max-width: 900px) {
+    .pillars-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about-grid {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 1100px) and (min-width: 901px) {
+    .pillars-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 700px) {
+    /*
+     * A narrow frame stretches the field vertically, which steepens every
+     * sweep. Easing it back keeps the copy the loudest thing on screen.
+     */
+    .hero-curves {
+      opacity: 0.78;
+    }
+
+    .hero-copy {
+      padding-top: 5.75rem;
+      padding-bottom: 2rem;
+    }
+
+    /* Keep the multi-line title readable on small screens. */
+    h1 {
+      font-size: clamp(1.7rem, 7.2vw, 2.55rem);
+      line-height: 1.1;
+    }
+
+    .hero-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      width: min(100%, 20rem);
+    }
+
+    .secondary-link {
+      width: 100%;
+      min-height: 3.2rem;
+    }
+
+    .pillars-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section-heading {
+      justify-items: center;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .events-card {
+      justify-items: center;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .about-grid,
+    .about-copy,
+    .member-note {
+      justify-items: center;
+      text-align: center;
+    }
+
+    .about-copy p {
+      max-width: 24rem;
+    }
+
+    .member-note span {
+      max-width: 15rem;
+    }
+
+    .pillar {
+      min-height: 11rem;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      width: 100%;
+      max-width: 24rem;
+    }
+
+    .hero-stats div {
+      min-width: 0;
+      padding: 0 0.55rem;
+    }
+
+    .hero-stats dt {
+      font-size: clamp(0.95rem, 4vw, 1.1rem);
+    }
+
+    .hero-stats dd {
+      font-size: 0.62rem;
+      letter-spacing: 0.09em;
+    }
+
+    h2 {
+      max-width: 16ch;
+      font-size: clamp(1.85rem, 8vw, 2.7rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>

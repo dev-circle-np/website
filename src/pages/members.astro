@@ -1,0 +1,475 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { members, type Member, type SocialKey } from "../data/members";
+
+const addYourselfUrl =
+  "https://github.com/dev-circle-np/website/blob/master/CONTRIBUTION.md#adding-yourself-as-a-member";
+
+const socialLabels: Record<SocialKey, string> = {
+  github: "GitHub",
+  twitter: "X",
+  facebook: "Facebook",
+  instagram: "Instagram",
+};
+
+const socialOrder: SocialKey[] = ["github", "twitter", "facebook", "instagram"];
+
+const socialUrl = (key: SocialKey, handle: string) => {
+  switch (key) {
+    case "github":
+      return `https://github.com/${handle}`;
+    case "twitter":
+      return `https://twitter.com/${handle}`;
+    case "facebook":
+      return `https://facebook.com/${handle}`;
+    case "instagram":
+      return `https://instagram.com/${handle}`;
+  }
+};
+
+const avatarUrl = (member: Member) =>
+  member.links.github
+    ? `https://avatars.githubusercontent.com/${member.links.github}?size=160`
+    : fallbackAvatar(member.fullName);
+
+function fallbackAvatar(fullName: string) {
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&size=160&background=6366f1&color=fff&bold=true&length=2`;
+}
+
+const onboardingUrl = "https://github.com/dev-circle-np/website";
+
+const breadcrumbs = [
+  { name: "Home", path: "/" },
+  { name: "Members", path: "/members/" },
+];
+
+const membersStructuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Developers Circle Nepal members",
+    description: `Directory of the ${members.length} developers and designers in the Developers Circle Nepal (DCN) community.`,
+    numberOfItems: members.length,
+    itemListElement: members.map((member, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Person",
+        name: member.fullName,
+        ...(member.links.github && { url: socialUrl("github", member.links.github) }),
+        ...(member.about && { description: member.about }),
+      },
+    })),
+  },
+];
+---
+
+<BaseLayout
+  title="Members | Developers Circle Nepal"
+  description={`Meet the ${members.length} developers and designers of Developers Circle Nepal (DCN) — a community of Nepali and worldwide builders who learn, code, build, share, and help together.`}
+  breadcrumbs={breadcrumbs}
+  structuredData={membersStructuredData}
+>
+  <main class="members-page" aria-label="Developers Circle Nepal members">
+    <section class="members-hero">
+      <div class="container">
+        <p class="section-kicker">Our members</p>
+        <h1>Developers and designers growing together</h1>
+        <p class="lede">
+          {members.length} members listed here, from Nepal and around the world. Learning
+          in public, shipping projects, and helping each other along the way.
+        </p>
+        <div class="hero-actions">
+          <a class="action" href={addYourselfUrl} target="_blank" rel="noreferrer">
+            Add yourself as a member
+          </a>
+          <a class="action muted" href="/">Back to home</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="members-section" aria-labelledby="members-title">
+      <div class="container">
+        <h2 id="members-title" class="visually-hidden">Member directory</h2>
+        <ul class="members-grid">
+          {members.map((member) => {
+            const links = socialOrder.filter((key) => member.links[key]);
+            const github = member.links.github;
+            return (
+              <li class="member-card" data-reveal>
+                {github ? (
+                  <a
+                    class="member-avatar"
+                    href={socialUrl("github", github)}
+                    target="_blank"
+                    rel="noreferrer"
+                    tabindex="-1"
+                    aria-hidden="true"
+                  >
+                    <img
+                      src={avatarUrl(member)}
+                      alt=""
+                      width="80"
+                      height="80"
+                      loading="lazy"
+                      decoding="async"
+                      onerror={`this.onerror=null;this.src='${fallbackAvatar(member.fullName)}'`}
+                    />
+                  </a>
+                ) : (
+                  <span class="member-avatar">
+                    <img
+                      src={avatarUrl(member)}
+                      alt=""
+                      width="80"
+                      height="80"
+                      loading="lazy"
+                      decoding="async"
+                      onerror={`this.onerror=null;this.src='${fallbackAvatar(member.fullName)}'`}
+                    />
+                  </span>
+                )}
+                <h3 class="member-name">{member.fullName}</h3>
+                {member.discord && (
+                  <p class="member-discord">
+                    <span class="discord-mark" aria-hidden="true">@</span>
+                    {member.discord}
+                  </p>
+                )}
+                <p class="member-about">{member.about}</p>
+                {links.length > 0 && (
+                  <div class="member-links">
+                    {links.map((key) => (
+                      <a
+                        href={socialUrl(key, member.links[key] as string)}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {socialLabels[key]}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </section>
+
+    <section class="join-section" aria-labelledby="join-title">
+      <div class="container">
+        <div class="join-card" data-reveal>
+          <p class="section-kicker">Add yourself</p>
+          <h2 id="join-title">Want to be listed here?</h2>
+          <p class="join-copy">
+            Join the Discord community, add your details to the members list in the
+            repository, and open a pull request. We review and merge contributions
+            from anyone learning in public.
+          </p>
+          <div class="join-actions">
+            <a class="action" href={addYourselfUrl} target="_blank" rel="noreferrer">
+              Read the contribution guide
+            </a>
+            <a class="action muted" href={onboardingUrl} target="_blank" rel="noreferrer">
+              Browse the repository
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  h1,
+  h2,
+  h3,
+  p {
+    margin: 0;
+  }
+
+  .members-page {
+    background: #11100d;
+    color: #fff7e8;
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .members-hero {
+    padding: clamp(7.5rem, 14vh, 10rem) 0 clamp(2.5rem, 5vw, 4rem);
+    border-bottom: 1px solid rgb(255 247 232 / 0.1);
+    background:
+      radial-gradient(circle at 20% 0%, rgb(242 198 107 / 0.16), transparent 46%),
+      #11100d;
+  }
+
+  .section-kicker {
+    color: #f2c66b;
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    max-width: 22ch;
+    margin-top: 0.85rem;
+    font-size: clamp(2.1rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+  }
+
+  .lede {
+    max-width: 44rem;
+    margin-top: 1rem;
+    color: rgb(255 247 232 / 0.78);
+    font-size: clamp(1.02rem, 1.5vw, 1.22rem);
+    font-weight: 600;
+    line-height: 1.55;
+  }
+
+  .hero-actions,
+  .join-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: clamp(1.4rem, 2.6vw, 2rem);
+  }
+
+  .action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.1rem;
+    padding: 0 1.4rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: #f2c66b;
+    color: #17140f;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      transform 180ms var(--ease-out-quint),
+      background-color 180ms var(--ease-out-quint),
+      color 180ms var(--ease-out-quint);
+  }
+
+  .action:hover {
+    background: #ffd978;
+    transform: translateY(-1px);
+  }
+
+  .action.muted {
+    border-color: rgb(255 247 232 / 0.24);
+    background: transparent;
+    color: #fff7e8;
+  }
+
+  .action.muted:hover {
+    border-color: rgb(255 247 232 / 0.4);
+    background: rgb(255 247 232 / 0.08);
+    color: #f2c66b;
+  }
+
+  .members-section {
+    padding: clamp(3rem, 7vw, 5rem) 0 clamp(4rem, 8vw, 6rem);
+  }
+
+  .members-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
+    gap: clamp(1rem, 1.8vw, 1.4rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .member-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+    padding: clamp(1.25rem, 2.2vw, 1.7rem);
+    border: 1px solid rgb(255 247 232 / 0.12);
+    background: #15120e;
+    transition:
+      border-color 180ms var(--ease-out-quint),
+      transform 180ms var(--ease-out-quint);
+  }
+
+  .member-card:hover {
+    border-color: rgb(242 198 107 / 0.4);
+    transform: translateY(-2px);
+  }
+
+  .member-avatar {
+    display: block;
+    margin-bottom: 0.5rem;
+    border-radius: 999px;
+  }
+
+  .member-avatar img {
+    display: block;
+    width: 4.5rem;
+    height: 4.5rem;
+    border: 1px solid rgb(255 247 232 / 0.18);
+    border-radius: 999px;
+    object-fit: cover;
+    background: #1d1a14;
+  }
+
+  .member-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .member-discord {
+    color: rgb(255 247 232 / 0.58);
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  .discord-mark {
+    color: #f2c66b;
+  }
+
+  .member-about {
+    color: rgb(255 247 232 / 0.76);
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  .member-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.6rem;
+  }
+
+  .member-links a {
+    padding: 0.32rem 0.7rem;
+    border: 1px solid rgb(255 247 232 / 0.18);
+    border-radius: 999px;
+    color: rgb(255 247 232 / 0.86);
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      border-color 180ms var(--ease-out-quint),
+      color 180ms var(--ease-out-quint);
+  }
+
+  .member-links a:hover {
+    border-color: rgb(242 198 107 / 0.55);
+    color: #f2c66b;
+  }
+
+  .join-section {
+    padding: 0 0 clamp(4rem, 8vw, 6rem);
+  }
+
+  .join-card {
+    display: grid;
+    justify-items: start;
+    gap: 0.9rem;
+    max-width: 48rem;
+    padding: clamp(1.6rem, 3.4vw, 2.6rem);
+    border: 1px solid rgb(255 247 232 / 0.12);
+    background: #17140f;
+  }
+
+  .join-card h2 {
+    max-width: 22ch;
+    font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.05;
+  }
+
+  .join-copy {
+    max-width: 44rem;
+    color: rgb(255 247 232 / 0.78);
+    font-size: clamp(1rem, 1.35vw, 1.12rem);
+    font-weight: 600;
+    line-height: 1.55;
+  }
+
+  [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 1.1rem, 0);
+    transition:
+      opacity 520ms var(--ease-out-quint),
+      transform 520ms var(--ease-out-quint);
+  }
+
+  [data-reveal][data-visible="true"] {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  @media (max-width: 700px) {
+    .members-hero {
+      padding-top: clamp(6.25rem, 12vh, 8rem);
+    }
+
+    .hero-actions,
+    .join-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      width: 100%;
+    }
+
+    .action {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const revealItems = document.querySelectorAll("[data-reveal]");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  if (revealItems.length && !reduceMotion.matches) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.setAttribute("data-visible", "true");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 },
+    );
+
+    revealItems.forEach((item) => observer.observe(item));
+  } else {
+    revealItems.forEach((item) => item.setAttribute("data-visible", "true"));
+  }
+</script>

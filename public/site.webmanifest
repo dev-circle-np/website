@@ -1,0 +1,31 @@
+{
+  "name": "Developers Circle Nepal",
+  "short_name": "DCN",
+  "description": "A developer community in Nepal for programmers, students, and open-source builders to learn, code, build, share, and help together.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "theme_color": "#11100d",
+  "background_color": "#11100d",
+  "display": "standalone"
+}
