@@ -52,7 +52,7 @@ const eventsUrl = "https://events.asy.sh";
     display: inline-flex;
     align-items: center;
     gap: 0.85rem;
-    color: #fff7e8;
+    color: var(--ink);
     font-size: 0.95rem;
     font-weight: 700;
     text-shadow: 0 2px 18px rgb(0 0 0 / 0.4);
@@ -73,7 +73,7 @@ const eventsUrl = "https://events.asy.sh";
   }
 
   .site-nav a {
-    color: rgb(255 247 232 / 0.86);
+    color: var(--text);
     font-size: clamp(0.82rem, 1vw, 0.92rem);
     font-weight: 700;
     line-height: 1;
@@ -82,9 +82,13 @@ const eventsUrl = "https://events.asy.sh";
   }
 
   .site-nav a:hover {
-    color: #f2c66b;
+    color: var(--gold);
   }
 
+  /*
+   * The header keeps its own compact button rather than the shared .btn: it is
+   * sized to sit inside the bar, not to stand alone in a content column.
+   */
   .site-nav .nav-discord {
     min-height: 2.75rem;
     display: inline-flex;
@@ -92,11 +96,11 @@ const eventsUrl = "https://events.asy.sh";
     justify-content: center;
     gap: 0.5rem;
     padding: 0 1rem;
-    border: 1px solid rgb(255 247 232 / 0.28);
+    border: 1px solid var(--hairline-loud);
     border-radius: 999px;
-    background: rgb(255 247 232 / 0.11);
-    color: #fff7e8;
-    box-shadow: inset 0 1px 0 rgb(255 247 232 / 0.18);
+    background: var(--fill);
+    color: var(--ink);
+    box-shadow: inset 0 1px 0 var(--hairline-strong);
     backdrop-filter: blur(14px) saturate(130%);
     -webkit-backdrop-filter: blur(14px) saturate(130%);
   }
@@ -109,8 +113,8 @@ const eventsUrl = "https://events.asy.sh";
   }
 
   .site-nav .nav-discord:hover {
-    background: rgb(255 247 232 / 0.16);
-    color: #f2c66b;
+    background: var(--fill-hover);
+    color: var(--gold);
   }
 
   @media (max-width: 640px) {

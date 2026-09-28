@@ -115,6 +115,7 @@ const structuredData = [
     <meta name="robots" content={robotsContent} />
     <meta name="application-name" content={siteName} />
     <meta name="theme-color" content="#11100d" />
+    <meta name="color-scheme" content="dark" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap-index.xml" />
     <meta property="og:site_name" content={siteName} />
@@ -163,6 +164,61 @@ const structuredData = [
 </html>
 
 <style is:global>
+  /*
+   * Single source of truth for the palette. Every surface, hairline and text
+   * tone below used to be a literal repeated across five files, which is how
+   * `#f2c66b` ended up in 17 places and the same cream arrived at 22 different
+   * alphas. Tokens live on :root so they reach scoped page styles too.
+   */
+  :root {
+    color-scheme: dark;
+
+    /* Surfaces, darkest to lightest. */
+    --bg: #11100d;
+    --bg-card: #15120e;
+    --bg-raised: #17140f;
+    --bg-inset: #1d1a14;
+
+    /* Brand inks. */
+    --ink: #fff7e8;
+    --gold: #f2c66b;
+    --gold-bright: #ffd978;
+
+    /* Cream text, ordered by emphasis. */
+    --text-strong: rgb(255 247 232 / 0.9);
+    --text: rgb(255 247 232 / 0.86);
+    --text-body: rgb(255 247 232 / 0.78);
+    --text-muted: rgb(255 247 232 / 0.7);
+    --text-dim: rgb(255 247 232 / 0.6);
+
+    /* Cream hairlines, plus the translucent washes used for glass. */
+    --hairline: rgb(255 247 232 / 0.11);
+    --hairline-strong: rgb(255 247 232 / 0.18);
+    --hairline-loud: rgb(255 247 232 / 0.26);
+    --hairline-bright: rgb(255 247 232 / 0.4);
+    --fill: rgb(255 247 232 / 0.11);
+    --fill-hover: rgb(255 247 232 / 0.16);
+    --fill-quiet: rgb(255 247 232 / 0.08);
+
+    /* Gold accents: borders, tints and the members-hero glow. */
+    --gold-line: rgb(242 198 107 / 0.32);
+    --gold-line-strong: rgb(242 198 107 / 0.55);
+    --gold-fill: rgb(242 198 107 / 0.09);
+    --gold-glow: rgb(242 198 107 / 0.16);
+
+    /* Layout and motion. */
+    --container-max: 80rem;
+    --page-gutter: clamp(1.25rem, 7vw, 7rem);
+    --radius-pill: 999px;
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+    --transition-quick: 180ms var(--ease-out-quint);
+
+    /* Shared button metrics. */
+    --btn-height: 3.1rem;
+    --btn-padding: 1.4rem;
+    --btn-font-size: 0.95rem;
+  }
+
   * {
     box-sizing: border-box;
   }
@@ -171,12 +227,26 @@ const structuredData = [
   body {
     margin: 0;
     min-height: 100%;
-    background: #11100d;
-    color: #fff7e8;
+    background: var(--bg);
+    color: var(--ink);
     font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-    --container-max: 80rem;
-    --page-gutter: clamp(1.25rem, 7vw, 7rem);
-    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /*
+   * Keyboard focus was previously left to the user agent. On a near-black page
+   * that outline is easy to miss, and most links here drop their underline, so
+   * the ring is the only affordance left. `:where()` keeps specificity at zero,
+   * letting each component's own radius win.
+   */
+  :where(a, button, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--gold-bright);
+    outline-offset: 3px;
+    border-radius: 0.25rem;
+  }
+
+  ::selection {
+    background: var(--gold);
+    color: var(--bg);
   }
 
   .container {
@@ -184,9 +254,104 @@ const structuredData = [
     margin-inline: auto;
   }
 
+  /*
+   * One button, three weights. The same control was previously written out
+   * three times (homepage, members, 404) with drifting heights, radii and
+   * transitions; pages now pick a weight instead of re-declaring a button.
+   */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--btn-height);
+    padding: 0 var(--btn-padding);
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    font-size: var(--btn-font-size);
+    font-weight: 700;
+    line-height: 1.1;
+    text-decoration: none;
+    transition:
+      transform var(--transition-quick),
+      background-color var(--transition-quick),
+      border-color var(--transition-quick),
+      color var(--transition-quick);
+  }
+
+  .btn-strong {
+    background: var(--gold);
+    color: var(--bg-raised);
+  }
+
+  .btn-strong:hover {
+    background: var(--gold-bright);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    gap: 0.55rem;
+    border-color: var(--hairline-loud);
+    background: var(--fill);
+    color: var(--ink);
+    box-shadow: inset 0 1px 0 var(--hairline-strong);
+    backdrop-filter: blur(14px) saturate(130%);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+  }
+
+  .btn-ghost:hover {
+    background: var(--fill-hover);
+    color: var(--gold);
+    transform: translateY(-1px);
+  }
+
+  .btn-quiet {
+    border-color: var(--hairline-strong);
+    background: transparent;
+    color: var(--text);
+  }
+
+  .btn-quiet:hover {
+    border-color: var(--hairline-bright);
+    background: var(--fill-quiet);
+    color: var(--gold);
+    transform: translateY(-1px);
+  }
+
+  /* Reveal-on-scroll is shared: every page that uses data-reveal gets this. */
+  [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 1.1rem, 0);
+    transition:
+      opacity 520ms var(--ease-out-quint),
+      transform 520ms var(--ease-out-quint);
+  }
+
+  [data-reveal][data-visible="true"] {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  /*
+   * Action rows stack on small screens. Opting in with .btn-stack keeps the
+   * full-width behaviour on the rows that always had it, rather than on every
+   * button in the site.
+   */
+  @media (max-width: 700px) {
+    .btn-stack .btn {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
   @media (max-width: 640px) {
-    html,
-    body {
+    :root {
       --page-gutter: 1.25rem;
     }
   }

@@ -33,7 +33,7 @@ const avatarUrl = (member: Member) =>
     : fallbackAvatar(member.fullName);
 
 function fallbackAvatar(fullName: string) {
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&size=160&background=6366f1&color=fff&bold=true&length=2`;
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&size=160&background=f2c66b&color=17140f&bold=true&length=2`;
 }
 
 const onboardingUrl = "https://github.com/dev-circle-np/website";
@@ -79,11 +79,11 @@ const membersStructuredData = [
           {members.length} members listed here, from Nepal and around the world. Learning
           in public, shipping projects, and helping each other along the way.
         </p>
-        <div class="hero-actions">
-          <a class="action" href={addYourselfUrl} target="_blank" rel="noreferrer">
+        <div class="hero-actions btn-stack">
+          <a class="btn btn-strong" href={addYourselfUrl} target="_blank" rel="noreferrer">
             Add yourself as a member
           </a>
-          <a class="action muted" href="/">Back to home</a>
+          <a class="btn btn-quiet" href="/">Back to home</a>
         </div>
       </div>
     </section>
@@ -167,11 +167,11 @@ const membersStructuredData = [
             repository, and open a pull request. We review and merge contributions
             from anyone learning in public.
           </p>
-          <div class="join-actions">
-            <a class="action" href={addYourselfUrl} target="_blank" rel="noreferrer">
+          <div class="join-actions btn-stack">
+            <a class="btn btn-strong" href={addYourselfUrl} target="_blank" rel="noreferrer">
               Read the contribution guide
             </a>
-            <a class="action muted" href={onboardingUrl} target="_blank" rel="noreferrer">
+            <a class="btn btn-quiet" href={onboardingUrl} target="_blank" rel="noreferrer">
               Browse the repository
             </a>
           </div>
@@ -190,8 +190,8 @@ const membersStructuredData = [
   }
 
   .members-page {
-    background: #11100d;
-    color: #fff7e8;
+    background: var(--bg);
+    color: var(--ink);
     font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   }
 
@@ -208,14 +208,14 @@ const membersStructuredData = [
 
   .members-hero {
     padding: clamp(7.5rem, 14vh, 10rem) 0 clamp(2.5rem, 5vw, 4rem);
-    border-bottom: 1px solid rgb(255 247 232 / 0.1);
+    border-bottom: 1px solid var(--hairline);
     background:
-      radial-gradient(circle at 20% 0%, rgb(242 198 107 / 0.16), transparent 46%),
-      #11100d;
+      radial-gradient(circle at 20% 0%, var(--gold-glow), transparent 46%),
+      var(--bg);
   }
 
   .section-kicker {
-    color: #f2c66b;
+    color: var(--gold);
     font-size: 0.84rem;
     font-weight: 700;
     letter-spacing: 0.13em;
@@ -235,7 +235,7 @@ const membersStructuredData = [
   .lede {
     max-width: 44rem;
     margin-top: 1rem;
-    color: rgb(255 247 232 / 0.78);
+    color: var(--text-body);
     font-size: clamp(1.02rem, 1.5vw, 1.22rem);
     font-weight: 600;
     line-height: 1.55;
@@ -247,42 +247,6 @@ const membersStructuredData = [
     flex-wrap: wrap;
     gap: 0.8rem;
     margin-top: clamp(1.4rem, 2.6vw, 2rem);
-  }
-
-  .action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 3.1rem;
-    padding: 0 1.4rem;
-    border: 1px solid transparent;
-    border-radius: 999px;
-    background: #f2c66b;
-    color: #17140f;
-    font-size: 0.95rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition:
-      transform 180ms var(--ease-out-quint),
-      background-color 180ms var(--ease-out-quint),
-      color 180ms var(--ease-out-quint);
-  }
-
-  .action:hover {
-    background: #ffd978;
-    transform: translateY(-1px);
-  }
-
-  .action.muted {
-    border-color: rgb(255 247 232 / 0.24);
-    background: transparent;
-    color: #fff7e8;
-  }
-
-  .action.muted:hover {
-    border-color: rgb(255 247 232 / 0.4);
-    background: rgb(255 247 232 / 0.08);
-    color: #f2c66b;
   }
 
   .members-section {
@@ -304,15 +268,15 @@ const membersStructuredData = [
     align-items: flex-start;
     gap: 0.55rem;
     padding: clamp(1.25rem, 2.2vw, 1.7rem);
-    border: 1px solid rgb(255 247 232 / 0.12);
-    background: #15120e;
+    border: 1px solid var(--hairline);
+    background: var(--bg-card);
     transition:
       border-color 180ms var(--ease-out-quint),
       transform 180ms var(--ease-out-quint);
   }
 
   .member-card:hover {
-    border-color: rgb(242 198 107 / 0.4);
+    border-color: var(--gold-line-strong);
     transform: translateY(-2px);
   }
 
@@ -326,10 +290,10 @@ const membersStructuredData = [
     display: block;
     width: 4.5rem;
     height: 4.5rem;
-    border: 1px solid rgb(255 247 232 / 0.18);
+    border: 1px solid var(--hairline-strong);
     border-radius: 999px;
     object-fit: cover;
-    background: #1d1a14;
+    background: var(--bg-inset);
   }
 
   .member-name {
@@ -339,7 +303,7 @@ const membersStructuredData = [
   }
 
   .member-discord {
-    color: rgb(255 247 232 / 0.58);
+    color: var(--text-dim);
     font-size: 0.8rem;
     font-weight: 600;
     line-height: 1.3;
@@ -347,11 +311,11 @@ const membersStructuredData = [
   }
 
   .discord-mark {
-    color: #f2c66b;
+    color: var(--gold);
   }
 
   .member-about {
-    color: rgb(255 247 232 / 0.76);
+    color: var(--text-body);
     font-size: 0.9rem;
     font-weight: 600;
     line-height: 1.45;
@@ -367,9 +331,9 @@ const membersStructuredData = [
 
   .member-links a {
     padding: 0.32rem 0.7rem;
-    border: 1px solid rgb(255 247 232 / 0.18);
+    border: 1px solid var(--hairline-strong);
     border-radius: 999px;
-    color: rgb(255 247 232 / 0.86);
+    color: var(--text);
     font-size: 0.76rem;
     font-weight: 700;
     text-decoration: none;
@@ -379,8 +343,8 @@ const membersStructuredData = [
   }
 
   .member-links a:hover {
-    border-color: rgb(242 198 107 / 0.55);
-    color: #f2c66b;
+    border-color: var(--gold-line-strong);
+    color: var(--gold);
   }
 
   .join-section {
@@ -393,8 +357,8 @@ const membersStructuredData = [
     gap: 0.9rem;
     max-width: 48rem;
     padding: clamp(1.6rem, 3.4vw, 2.6rem);
-    border: 1px solid rgb(255 247 232 / 0.12);
-    background: #17140f;
+    border: 1px solid var(--hairline);
+    background: var(--bg-raised);
   }
 
   .join-card h2 {
@@ -406,23 +370,10 @@ const membersStructuredData = [
 
   .join-copy {
     max-width: 44rem;
-    color: rgb(255 247 232 / 0.78);
+    color: var(--text-body);
     font-size: clamp(1rem, 1.35vw, 1.12rem);
     font-weight: 600;
     line-height: 1.55;
-  }
-
-  [data-reveal] {
-    opacity: 0;
-    transform: translate3d(0, 1.1rem, 0);
-    transition:
-      opacity 520ms var(--ease-out-quint),
-      transform 520ms var(--ease-out-quint);
-  }
-
-  [data-reveal][data-visible="true"] {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
   }
 
   @media (max-width: 700px) {
@@ -435,18 +386,6 @@ const membersStructuredData = [
       display: grid;
       grid-template-columns: 1fr;
       width: 100%;
-    }
-
-    .action {
-      width: 100%;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    [data-reveal] {
-      opacity: 1;
-      transform: none;
-      transition: none;
     }
   }
 </style>

@@ -17,9 +17,9 @@ const discordUrl = "https://discord.gg/fp5CmBG";
 <style>
   .site-footer {
     padding: clamp(1.75rem, 4vw, 3rem) 0;
-    border-top: 1px solid rgb(255 247 232 / 0.1);
-    background: #11100d;
-    color: rgb(255 247 232 / 0.64);
+    border-top: 1px solid var(--hairline);
+    background: var(--bg);
+    color: var(--text-dim);
   }
 
   .site-footer-inner {
@@ -31,7 +31,7 @@ const discordUrl = "https://discord.gg/fp5CmBG";
 
   p {
     margin: 0;
-    color: #fff7e8;
+    color: var(--ink);
     font-size: 1rem;
     font-weight: 700;
   }
@@ -44,14 +44,14 @@ const discordUrl = "https://discord.gg/fp5CmBG";
   }
 
   a {
-    color: #f2c66b;
+    color: var(--gold);
     font-size: 0.88rem;
     font-weight: 700;
     text-decoration: none;
   }
 
   a:hover {
-    color: #ffd978;
+    color: var(--gold-bright);
   }
 
   @media (max-width: 640px) {

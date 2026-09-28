@@ -13,29 +13,37 @@ const avatarUrl = (member: Member) =>
     : fallbackAvatar(member.fullName);
 
 function fallbackAvatar(fullName: string) {
-  return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&size=160&background=6366f1&color=fff&bold=true&length=2`;
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&size=160&background=f2c66b&color=17140f&bold=true&length=2`;
 }
 
+// Inline 24x24 stroke icons so the pillars carry no extra requests. Each is a
+// string of SVG children rendered inside a shared <svg> wrapper, and they all
+// inherit `currentColor` from `.pillar-icon`.
 const pillars = [
   {
     title: "Learn",
     text: "Study together, ask better questions, and keep improving in public.",
+    icon: '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>',
   },
   {
     title: "Code",
     text: "Practice by building real software, reviewing work, and sharing progress.",
+    icon: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
   },
   {
     title: "Build",
     text: "Turn ideas into practical projects that can help communities around us.",
+    icon: '<path d="m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/>',
   },
   {
     title: "Share",
     text: "Document lessons, open-source useful work, and make knowledge easier to find.",
+    icon: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
   },
   {
     title: "Help",
     text: "Support students, early-career engineers, and organizations with real needs.",
+    icon: '<circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/><circle cx="12" cy="12" r="4"/>',
   },
 ];
 ---
@@ -82,9 +90,9 @@ const pillars = [
           A community of developers and designers who believe in learning together, building
           together, and growing together.
         </p>
-        <div class="hero-actions" aria-label="Primary actions">
+        <div class="hero-actions btn-stack" aria-label="Primary actions">
           <a
-            class="secondary-link discord-link"
+            class="btn btn-ghost discord-link"
             href={discordUrl}
             target="_blank"
             rel="noreferrer"
@@ -119,6 +127,18 @@ const pillars = [
         <div class="pillars-grid">
           {pillars.map((pillar) => (
             <article class="pillar" data-reveal>
+              <span class="pillar-icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                  set:html={pillar.icon}
+                />
+              </span>
               <h3>{pillar.title}</h3>
               <p>{pillar.text}</p>
             </article>
@@ -174,7 +194,7 @@ const pillars = [
             </li>
           ))}
         </ul>
-        <a class="members-cta" href="/members">View all members</a>
+        <a class="btn btn-strong members-cta" href="/members">View all members</a>
       </div>
     </section>
 
@@ -188,7 +208,7 @@ const pillars = [
             hackathons, and workshops from communities around Nepal.
           </p>
           <a
-            class="events-link"
+            class="btn btn-strong events-link"
             href={eventsUrl}
             target="_blank"
             rel="noreferrer"
@@ -233,15 +253,15 @@ const pillars = [
   }
 
   .home {
-    background: #11100d;
-    color: #fff7e8;
+    background: var(--bg);
+    color: var(--ink);
     font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   }
 
   /*
    * The hero sits one step up from the base page tone. Without its own fill it
-   * inherited `.home`'s #11100d, which is also the pillars section directly
-   * below, so the two ran together with no seam. #17140f is the same lifted
+   * inherited `.home`'s --bg, which is also the pillars section directly
+   * below, so the two ran together with no seam. --bg-raised is the same lifted
    * tone the about section uses further down, and the hairline keeps the
    * boundary intentional rather than a colour-matching accident.
    */
@@ -250,8 +270,8 @@ const pillars = [
     min-height: 100svh;
     display: grid;
     align-items: center;
-    background: #17140f;
-    border-bottom: 1px solid rgb(255 247 232 / 0.1);
+    background: var(--bg-raised);
+    border-bottom: 1px solid var(--hairline);
   }
 
   /*
@@ -267,7 +287,7 @@ const pillars = [
     width: 100%;
     height: 100%;
     fill: none;
-    stroke: #fff7e8;
+    stroke: var(--ink);
     stroke-width: 1.25;
     stroke-linecap: round;
     pointer-events: none;
@@ -290,7 +310,7 @@ const pillars = [
 
   .eyebrow,
   .section-kicker {
-    color: #f2c66b;
+    color: var(--gold);
     font-size: 0.84rem;
     font-weight: 700;
     letter-spacing: 0.13em;
@@ -311,7 +331,7 @@ const pillars = [
   .lede {
     max-width: 42rem;
     margin-top: 1.1rem;
-    color: rgb(255 247 232 / 0.9);
+    color: var(--text-strong);
     font-size: clamp(1rem, 1.35vw, 1.2rem);
     font-weight: 600;
     line-height: 1.5;
@@ -326,46 +346,10 @@ const pillars = [
     margin-top: clamp(1.25rem, 2.4vw, 1.9rem);
   }
 
-  .secondary-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 3.35rem;
-    padding: 0 1.35rem;
-    border: 1px solid rgb(255 247 232 / 0.24);
-    border-radius: 999px;
-    color: #fff7e8;
-    font-size: 0.95rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition:
-      transform 180ms var(--ease-out-quint),
-      background-color 180ms var(--ease-out-quint),
-      color 180ms var(--ease-out-quint);
-  }
-
-  .secondary-link:hover {
-    color: #f2c66b;
-    transform: translateY(-1px);
-  }
-
-  .discord-link {
-    gap: 0.55rem;
-    border-color: rgb(255 247 232 / 0.28);
-    background: rgb(255 247 232 / 0.11);
-    box-shadow: inset 0 1px 0 rgb(255 247 232 / 0.18);
-    backdrop-filter: blur(14px) saturate(130%);
-    -webkit-backdrop-filter: blur(14px) saturate(130%);
-  }
-
   .discord-link img {
     width: 1.1rem;
     height: 1.1rem;
     flex: 0 0 auto;
-  }
-
-  .discord-link:hover {
-    background: rgb(255 247 232 / 0.16);
   }
 
   .hero-stats {
@@ -394,14 +378,14 @@ const pillars = [
   }
 
   .hero-stats dt {
-    color: #fff7e8;
+    color: var(--ink);
     font-size: clamp(1.25rem, 2vw, 1.75rem);
     font-weight: 700;
     line-height: 1;
   }
 
   .hero-stats dd {
-    color: rgb(255 247 232 / 0.56);
+    color: var(--text-dim);
     font-size: 0.76rem;
     font-weight: 700;
     letter-spacing: 0.12em;
@@ -416,7 +400,7 @@ const pillars = [
   }
 
   .pillars-section {
-    background: #11100d;
+    background: var(--bg);
   }
 
   .section-heading {
@@ -438,22 +422,39 @@ const pillars = [
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 1px;
     margin-top: clamp(2.2rem, 5vw, 4rem);
-    background: rgb(255 247 232 / 0.11);
-    border: 1px solid rgb(255 247 232 / 0.11);
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
   }
 
   .pillar {
     min-height: 15rem;
     display: grid;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto auto 1fr;
     align-content: start;
     gap: 1.1rem;
     padding: clamp(1.25rem, 2.5vw, 2rem);
-    background: #15120e;
+    background: var(--bg-card);
+  }
+
+  .pillar-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.85rem;
+    height: 2.85rem;
+    border: 1px solid var(--gold-line);
+    border-radius: 0.85rem;
+    background: var(--gold-fill);
+    color: var(--gold);
+  }
+
+  .pillar-icon svg {
+    width: 1.4rem;
+    height: 1.4rem;
   }
 
   .pillar h3 {
-    color: #fff7e8;
+    color: var(--ink);
     font-size: clamp(1.25rem, 2vw, 1.75rem);
     line-height: 1.05;
     align-self: start;
@@ -461,7 +462,7 @@ const pillars = [
 
   .pillar p {
     max-width: 15rem;
-    color: rgb(255 247 232 / 0.7);
+    color: var(--text-muted);
     font-size: 0.95rem;
     font-weight: 600;
     line-height: 1.45;
@@ -469,7 +470,7 @@ const pillars = [
   }
 
   .about-section {
-    background: #17140f;
+    background: var(--bg-raised);
   }
 
   .about-grid {
@@ -487,7 +488,7 @@ const pillars = [
 
   .about-copy p {
     max-width: 58rem;
-    color: rgb(255 247 232 / 0.8);
+    color: var(--text-body);
     font-size: clamp(1.05rem, 1.55vw, 1.28rem);
     font-weight: 600;
     line-height: 1.58;
@@ -500,14 +501,14 @@ const pillars = [
   }
 
   .member-note strong {
-    color: #f2c66b;
+    color: var(--gold);
     font-size: clamp(3rem, 7vw, 6.4rem);
     line-height: 0.88;
   }
 
   .member-note span {
     max-width: 14rem;
-    color: rgb(255 247 232 / 0.74);
+    color: var(--text-body);
     font-size: 1rem;
     font-weight: 700;
     line-height: 1.25;
@@ -515,19 +516,19 @@ const pillars = [
 
   .member-link {
     margin-top: 0.6rem;
-    color: #f2c66b;
+    color: var(--gold);
     font-size: 0.92rem;
     font-weight: 700;
     text-decoration: none;
   }
 
   .member-link:hover {
-    color: #ffd978;
+    color: var(--gold-bright);
   }
 
   .members-section {
-    background: #11100d;
-    border-top: 1px solid rgb(255 247 232 / 0.1);
+    background: var(--bg);
+    border-top: 1px solid var(--hairline);
   }
 
   .members-inner {
@@ -543,7 +544,7 @@ const pillars = [
   .members-lede {
     max-width: 34rem;
     margin-top: 0.9rem;
-    color: rgb(255 247 232 / 0.72);
+    color: var(--text-muted);
     font-size: clamp(1rem, 1.4vw, 1.18rem);
     font-weight: 600;
     line-height: 1.5;
@@ -568,47 +569,24 @@ const pillars = [
     display: block;
     width: clamp(2.9rem, 5vw, 4rem);
     height: clamp(2.9rem, 5vw, 4rem);
-    border: 1px solid rgb(255 247 232 / 0.18);
+    border: 1px solid var(--hairline-strong);
     border-radius: 999px;
     object-fit: cover;
-    background: #1d1a14;
+    background: var(--bg-inset);
     transition:
       transform 180ms var(--ease-out-quint),
       border-color 180ms var(--ease-out-quint);
   }
 
   .members-row a:hover img {
-    border-color: rgb(242 198 107 / 0.6);
+    border-color: var(--gold-line-strong);
     transform: translateY(-3px);
-  }
-
-  .members-cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 3.35rem;
-    margin-top: clamp(1.8rem, 4vw, 2.6rem);
-    padding: 0 1.5rem;
-    border-radius: 999px;
-    background: #f2c66b;
-    color: #17140f;
-    font-size: 0.98rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition:
-      transform 180ms var(--ease-out-quint),
-      background-color 180ms var(--ease-out-quint);
-  }
-
-  .members-cta:hover {
-    background: #ffd978;
-    transform: translateY(-1px);
   }
 
   .events-section {
     padding: clamp(4.5rem, 9vw, 7rem) 0;
-    background: #11100d;
-    border-top: 1px solid rgb(255 247 232 / 0.1);
+    background: var(--bg);
+    border-top: 1px solid var(--hairline);
   }
 
   .events-card {
@@ -625,46 +603,19 @@ const pillars = [
 
   .events-copy {
     max-width: 44rem;
-    color: rgb(255 247 232 / 0.8);
+    color: var(--text-body);
     font-size: clamp(1.02rem, 1.45vw, 1.2rem);
     font-weight: 600;
     line-height: 1.55;
   }
 
+  /* The shared .btn owns the button itself; these only place it. */
+  .members-cta {
+    margin-top: clamp(1.8rem, 4vw, 2.6rem);
+  }
+
   .events-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 3.35rem;
     margin-top: 0.35rem;
-    padding: 0 1.5rem;
-    border-radius: 999px;
-    background: #f2c66b;
-    color: #17140f;
-    font-size: 0.98rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition:
-      transform 180ms var(--ease-out-quint),
-      background-color 180ms var(--ease-out-quint);
-  }
-
-  .events-link:hover {
-    background: #ffd978;
-    transform: translateY(-1px);
-  }
-
-  [data-reveal] {
-    opacity: 0;
-    transform: translate3d(0, 1.1rem, 0);
-    transition:
-      opacity 520ms var(--ease-out-quint),
-      transform 520ms var(--ease-out-quint);
-  }
-
-  [data-reveal][data-visible="true"] {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
   }
 
   @media (max-width: 900px) {
@@ -708,11 +659,6 @@ const pillars = [
       display: grid;
       grid-template-columns: 1fr;
       width: min(100%, 20rem);
-    }
-
-    .secondary-link {
-      width: 100%;
-      min-height: 3.2rem;
     }
 
     .pillars-grid {
@@ -774,14 +720,6 @@ const pillars = [
     h2 {
       max-width: 16ch;
       font-size: clamp(1.85rem, 8vw, 2.7rem);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    [data-reveal] {
-      opacity: 1;
-      transform: none;
-      transition: none;
     }
   }
 </style>

@@ -17,8 +17,10 @@ const discordUrl = "https://discord.gg/fp5CmBG";
       ask in the Discord community.
     </p>
     <div class="actions">
-      <a class="action" href={discordUrl} target="_blank" rel="noreferrer">Join the Discord community</a>
-      <a class="action muted" href="/">Back to home</a>
+      <a class="btn btn-ghost" href={discordUrl} target="_blank" rel="noreferrer">
+        Join the Discord community
+      </a>
+      <a class="btn btn-quiet" href="/">Back to home</a>
     </div>
   </main>
 </BaseLayout>
@@ -41,7 +43,7 @@ const discordUrl = "https://discord.gg/fp5CmBG";
   }
 
   .section-kicker {
-    color: #f2c66b;
+    color: var(--gold);
     font-size: 0.84rem;
     font-weight: 700;
     letter-spacing: 0.13em;
@@ -57,7 +59,7 @@ const discordUrl = "https://discord.gg/fp5CmBG";
 
   .lede {
     max-width: 32rem;
-    color: rgb(255 247 232 / 0.82);
+    color: var(--text-body);
     font-size: clamp(1rem, 1.4vw, 1.15rem);
     font-weight: 600;
     line-height: 1.45;
@@ -69,30 +71,5 @@ const discordUrl = "https://discord.gg/fp5CmBG";
     gap: 0.8rem;
     justify-content: center;
     margin-top: 1rem;
-  }
-
-  .action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 3rem;
-    padding: 0 1.35rem;
-    border: 1px solid rgb(255 247 232 / 0.26);
-    border-radius: 999px;
-    background: rgb(255 247 232 / 0.11);
-    color: #fff7e8;
-    font-size: 0.95rem;
-    font-weight: 700;
-    text-decoration: none;
-  }
-
-  .action:hover {
-    color: #f2c66b;
-  }
-
-  .muted {
-    border-color: rgb(255 247 232 / 0.16);
-    background: transparent;
-    color: rgb(255 247 232 / 0.72);
   }
 </style>
