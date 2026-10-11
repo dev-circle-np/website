@@ -262,6 +262,15 @@ const unsortedMembers: Member[] = [
       facebook: "bibekdhkl",
     },
   },
+  {
+    fullName: "Prashant Shrestha",
+    discord: "popsicle0308",
+    about: "Aspiring Full-stack developer and UI/UX Designer. Loves UI/UX, graphics and designs",
+    links: {
+      github: "prashantStha308",
+      instagram: "pop__sickle"
+    },
+  },
 ];
 
 /** Members sorted in ascending order by name (case-insensitive). */
