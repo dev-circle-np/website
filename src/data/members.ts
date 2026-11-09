@@ -271,6 +271,17 @@ const unsortedMembers: Member[] = [
       instagram: "pop__sickle"
     },
   },
+  {
+  fullName: "Sankalp Tharu",
+  discord: "sanaklp369",              
+  about: "Turning complex problems into simple, scalable software. Python, Django, Linux & Open Source.",
+  links: {
+    github: "S4NKALP",   
+    twitter: "iamsankalptharu",    
+    facebook: "iamsankalptharu",
+    instagram: "iamsankalptharu"
+  },
+},
 ];
 
 /** Members sorted in ascending order by name (case-insensitive). */
